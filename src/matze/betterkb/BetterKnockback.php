@@ -2,7 +2,6 @@
 
 namespace matze\betterkb;
 
-use matze\replaysystem\ReplaySystem;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\Listener;
@@ -65,11 +64,6 @@ class BetterKnockback extends PluginBase implements Listener {
                 $event->setCancelled();
                 $player->broadcastEntityEvent(ActorEventPacket::HURT_ANIMATION);
                 $player->setMotion(new Vector3($damager->getDirectionVector()->x / $multiplier, $multiplier - 0.95, $damager->getDirectionVector()->z / $multiplier));
-                if(!is_null(Server::getInstance()->getPluginManager()->getPlugin("ReplaySystem"))) {
-                    if(ReplaySystem::getInstance()->getReplay()->isRunning()) {
-                        ReplaySystem::getInstance()->getReplay()->addAction()->damageAction($player);
-                    }
-                }
                 $this->cooldown[$player->getName()] = Server::getInstance()->getTick() + 10;
             } else {
                 $event->setCancelled();
@@ -87,14 +81,3 @@ class BetterKnockback extends PluginBase implements Listener {
         if ($item->hasEnchantment(Enchantment::KNOCKBACK)) $event->setCancelled();
     }
 }
-
-/*
-$multiplier = 1.3;
-if ($item->getEnchantment(Enchantment::KNOCKBACK)->getLevel() === 2) {
-    $multiplier = 1.7;
-}
-$event->setCancelled();
-$player->broadcastEntityEvent(ActorEventPacket::HURT_ANIMATION);
-$player->setMotion(new Vector3($damager->getDirectionVector()->x / $multiplier, $multiplier - 1, $damager->getDirectionVector()->z / $multiplier));
-$this->cooldown[$name] = true;
-*/
