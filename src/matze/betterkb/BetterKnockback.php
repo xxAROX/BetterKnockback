@@ -70,14 +70,4 @@ class BetterKnockback extends PluginBase implements Listener {
             }
         }
     }
-
-    /**
-     * @param BlockPlaceEvent $event
-     */
-
-    public function onPlace(BlockPlaceEvent $event): void
-    {
-        $item = $event->getItem();
-        if ($item->hasEnchantment(Enchantment::KNOCKBACK)) $event->setCancelled();
-    }
 }
