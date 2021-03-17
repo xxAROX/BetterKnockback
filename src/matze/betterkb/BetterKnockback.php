@@ -55,7 +55,9 @@ class BetterKnockback extends PluginBase implements Listener {
         $item = $damager->getInventory()->getItemInHand();
 
         if ($item->hasEnchantment(Enchantment::KNOCKBACK)) {
-            $event->setModifier(0, EntityDamageByEntityEvent::MODIFIER_TOTEM);
+            if ($item->getId() === \pocketmine\item\Item::TOTEM) {
+                $event->setModifier(0, EntityDamageByEntityEvent::MODIFIER_TOTEM);
+            }
             if ($this->cooldown[$name] <= Server::getInstance()->getTick()) {
                 $multiplier = 1.4;
                 if ($item->getEnchantment(Enchantment::KNOCKBACK)->getLevel() === 2) {
